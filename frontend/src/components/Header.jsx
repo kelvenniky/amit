@@ -1,14 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './Logo'
 import { CiSearch } from "react-icons/ci";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import SummaryApi from '../common';
+import {toast} from 'react-toastify'
+import { setUserDetails } from '../store/userSlice';
 
 
 
 
 const Header = () => {
+  const user = useSelector(state => state?.user?.user)
+  const dispatch = useDispatch()
+  const [menuDisplay, setMenuDisplay] =useState(false)
+
+  const handleLogout = async()=>{
+    const fetchData = await fetch(SummaryApi.logout_user.url,{
+      method: SummaryApi.logout_user.method,
+      credentials:'include'
+    })
+
+    const data = await fetchData.json()
+    if(data.success){
+      toast.success(data.message)
+      dispatch(setUserDetails())
+    }
+    if(data.error){
+      toast.error(data.message)
+    }
+  }
+
   return (
     <header className='h-16 shadow-md bg-white'>
       <div className='container h-full flex items-center mx-auto px-4 justify-between'>
@@ -25,8 +49,28 @@ const Header = () => {
           </div>
         </div>
         <div className='flex items-center gap-7'>
-          <div className='text-3xl cursor-pointer'>
-          <FaRegCircleUser />
+          <div className='relative  flex justify-center'>
+          <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve=> !preve)}>
+            {
+              user?.profilePic ?(
+                <img src={user?.profilePic} className='w-10 h-10 rounded-full' alt={user?.name}/>
+              ):(
+                <FaRegCircleUser />
+              )
+            }
+         
+          </div>
+          {
+            menuDisplay&&(
+              <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded '>
+              <nav>
+                <Link to={"/admin-panel"} className='whitespace-nowrap hidden md:block hover:bg-slate-100 p-2' onClick={()=>setMenuDisplay(preve=> !preve)}>Admin Panel</Link>
+              </nav>
+            </div>
+            )
+          }
+
+            
           </div>
           <div className='text-2xl relative'>
             <span> <FaShoppingCart /> </span>
@@ -37,7 +81,15 @@ const Header = () => {
           </div>
 
           <div>
-            <Link to={"/login"}className='px-3 bg-red-600 py-1 text-white hover:bg-red-700 rounded-full'>Login</Link>
+            {
+              user?._id ?(
+                <button onClick={handleLogout} className='px-3 bg-red-600 py-1 text-white hover:bg-red-700 rounded-full'>Logout</button>
+              ):
+              (
+                <Link to={"/login"}className='px-3 bg-red-600 py-1 text-white hover:bg-red-700 rounded-full'>Login</Link>
+
+              )
+            }
           </div>
         </div>
       </div>

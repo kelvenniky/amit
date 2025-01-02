@@ -4,10 +4,24 @@ const router = express.Router();
 
 const userSignUpController = require("../controller/userSignUp.jsx");
 const userSignInController = require('../controller/userSignIn.jsx');
+const userDetailsController = require('../controller/userDetails.jsx');
+const authToken = require('../middleware/authToken.jsx');
+const UserLogout = require('../controller/userLogout.jsx');
+const AllUsers = require('../controller/AllUsers.jsx');
+const updateUser = require('../controller/UpdateUser.jsx');
+
+
 
 // Correct the route definition
 router.post("/signUp", userSignUpController); // Pass the controller function
 router.post("/signIn", userSignInController); // Pass the controller function
+router.get("/user-details",authToken,userDetailsController)
+router.get('/userLogout', UserLogout)
+
+//admin panel
+router.get('/all-user',authToken,AllUsers)
+router.post('/update-useer', authToken,updateUser)
+
 
 
 module.exports = router;
