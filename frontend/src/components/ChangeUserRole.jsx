@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import ROLE from '../common/role'
 import { IoMdClose } from "react-icons/io";
 import SummaryApi from '../common';
+import { toast } from 'react-toastify';
 
 
 const ChangeUserRole = ({
     name,
     email,
     role,
-    onClose
+    onClose,
+    userId,
+    callFunc,
 }) => {
 
 const [userRole, setUserRole] = useState(role)
@@ -25,11 +28,17 @@ const updateUserRole = async() =>{
             "content-type" : "application/json"
         },
         body : JSON.stringify({
+            userId:userId,
             role : userRole
         })
     })
 
     const responseData = await fetchResponse.json()
+    if(responseData.success){
+        toast.success(responseData.message)
+        onClose()
+        callFunc()
+    }
 
     console.log("role updated",responseData)
 
@@ -37,7 +46,7 @@ const updateUserRole = async() =>{
 
 
   return (
-<div className='fixed w-full top-0 bottom-0 right-0 h-full  z-10 flex justify-center items-center'>
+<div className='fixed w-full top-0 bottom-0 right-0 h-full  z-10 flex justify-center items-center bg-slate-200 bg-opacity-50'>
     <div className='mx-auto bg-white shadow-md p-4 w-full max-w-sm'>
 
         <button className='block ml-auto' onClick={onClose}>

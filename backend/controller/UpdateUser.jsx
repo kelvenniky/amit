@@ -14,7 +14,7 @@ async function updateUser(req,res) {
 
         }
 
-        const user = await userModel.findById()
+        const user = await userModel.findById(sessionUser)
 
         console.log("userRole", user.role)
 
@@ -37,4 +37,4 @@ async function updateUser(req,res) {
     }
 }
 
-module.exports =updateUser
+module.exports = updateUser

@@ -3,11 +3,19 @@ import SummaryApi from '../common'
 import moment from 'moment'
 import { MdModeEditOutline } from "react-icons/md";
 import ChangeUserRole from '../components/ChangeUserRole';
+import { use } from 'react';
 
 
 
 const AllUsers = () => {
   const[allUser, setAllUsers]= useState([])
+  const [openUpdateRole, setOpenUpdateRole]= useState(false)
+  const [updateUserDetails, setUpdateUserDetails] = useState({
+    email:"",
+    name:"",
+    role:"",
+    _id:"",
+  })
 
 
     const fetchAllUsers =async()=>{
@@ -38,7 +46,7 @@ const AllUsers = () => {
   <div className='pb-4 bg-white'>
     <table className='w-full userTable'>
       <thead>
-        <tr>
+        <tr className='bg-black text-white'>
         <th>Sr.</th>
         <th>Name</th>
         <th>Email</th>
@@ -52,14 +60,21 @@ const AllUsers = () => {
         {
           allUser.map((el, index)=>{
             return(
-              <tr>
+              <tr >
                 <td>{index+1}</td>
                 <td>{el?.name}</td>
                 <td>{el?.email}</td>
                 <td>{el?.role}</td>
                 <td>{moment(el?.createdAt).format('ll')}</td>
                 <td>
-                  <button  className='hover:bg-green-500 hover:text-white p-1 rounded-full cursor-pointer'>
+                  <button  
+                  className='hover:bg-green-500 hover:text-white p-1 rounded-full cursor-pointer' 
+                  onClick={()=>{
+                    setUpdateUserDetails(el)
+                    setOpenUpdateRole(true)
+                    
+                  }}
+                  >
                   <MdModeEditOutline />
                   </button>
                 
@@ -72,7 +87,21 @@ const AllUsers = () => {
         }
       </tbody>
     </table>
-    <ChangeUserRole/>
+
+    {
+      openUpdateRole &&(
+        <ChangeUserRole
+        onClose={()=>setOpenUpdateRole(false)}
+        name={updateUserDetails.name}
+        email={updateUserDetails.email}
+        role={updateUserDetails.role}
+        userId={updateUserDetails._id}
+        callFunc={fetchAllUsers}
+        />
+
+      )
+    }
+    
   </div>
     )
 }
