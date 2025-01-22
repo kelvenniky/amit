@@ -10,6 +10,9 @@ const UserLogout = require('../controller/userLogout.jsx');
 const AllUsers = require('../controller/AllUsers.jsx');
 const updateUser = require('../controller/UpdateUser.jsx');
 const UploadProductController = require('../controller/UploadProduct.jsx');
+const getProductController = require('../controller/GetProduct.jsx');
+const updateProductController = require('../controller/UpdateProduct.jsx');
+
 
 
 
@@ -25,6 +28,8 @@ router.post('/update-user', authToken,updateUser)
 
 //product
 router.post('/upload-product',authToken, UploadProductController)
+router.get('/get-product', getProductController)
+router.post('/update-product',authToken, updateProductController)
 
 
 

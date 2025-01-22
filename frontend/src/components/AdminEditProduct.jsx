@@ -9,96 +9,98 @@ import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 
 
+const AdminEditProduct = ({
+onClose,
+productData,
+fetchData
+}) => {
 
-
-const UploadProduct = ({onClose,fetchData}) => {
-
-  const [data, setData] = useState({
-    productName:"",
-    brandName:"",
-    category:"",
-    productImage:[],
-    description:"",
-    price:"",
-    sellingPrice:"",
-  })
-  const [openFullScreenImage, setOpenFullScreenImage] = useState(false)
-  const [fullScreenImage, setFullScreenImage] = useState("")
-
-  const handleOnChange =(e)=>{
-    const {name, value} =e.target
-    setData((preve)=>{
-      return{
-        ...preve,
-        [name]:value
-      }
-    })
-
-
-  }
-
-  const handleUploadProduct = async(e)=>{
-    const file = e.target.files[0]
-
-    const uploadImageCloudinary = await uploadImage(file)
-    setData((preve)=>{
-      return{
-        ...preve,
-        productImage : [...preve.productImage,uploadImageCloudinary.url]
-      }
-    })
-
-  }
-
-  const handleDeleteProductImage =async(index)=>{
-    console.log(index)
-    const newProductImage =[...data.productImage]
-    newProductImage.splice(index,1)
-
-    setData((preve)=>{
-      return{
-        ...preve,
-        productImage : [...newProductImage]
-      }
-    })
-
-  }
-
-  {/*upload product */}
-
-  const handleSubmit = async(e) =>{
-    e.preventDefault()
+    const [data, setData] = useState({
+      ...productData,
+        productName: productData?.productName,
+        brandName:productData?.brandName,
+        category: productData?.category,
+        productImage: productData?.productImage || [],
+        description: productData.description,
+        price: productData?.price,
+        sellingPrice:productData?.sellingPrice,
+      })
+      const [openFullScreenImage, setOpenFullScreenImage] = useState(false)
+      const [fullScreenImage, setFullScreenImage] = useState("")
     
-    const response = await fetch(SummaryApi.uploadProduct.url,{
-      method : SummaryApi.uploadProduct.method,
-      credentials : 'include',
-      headers : {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data)
-    })
-
-    const responseData = await response.json()
-
-    if(responseData.success){
-        toast.success(responseData?.message)
-        onClose()
-        fetchData()
-    }
-
-    if(response.error){
-      toast.error(responseData?.message)
-    }
-
-
-  }
-
-
+      const handleOnChange =(e)=>{
+        const {name, value} =e.target
+        setData((preve)=>{
+          return{
+            ...preve,
+            [name]:value
+          }
+        })
+    
+    
+      }
+    
+      const handleUploadProduct = async(e)=>{
+        const file = e.target.files[0]
+    
+        const uploadImageCloudinary = await uploadImage(file)
+        setData((preve)=>{
+          return{
+            ...preve,
+            productImage : [...preve.productImage,uploadImageCloudinary.url]
+          }
+        })
+    
+      }
+    
+      const handleDeleteProductImage =async(index)=>{
+        console.log(index)
+        const newProductImage =[...data.productImage]
+        newProductImage.splice(index,1)
+    
+        setData((preve)=>{
+          return{
+            ...preve,
+            productImage : [...newProductImage]
+          }
+        })
+    
+      }
+    
+      {/*upload product */}
+    
+      const handleSubmit = async(e) =>{
+        e.preventDefault()
+        
+        const response = await fetch(SummaryApi.updateProduct.url,{
+          method : SummaryApi.updateProduct.method,
+          credentials : 'include',
+          headers : {
+            "content-type" : "application/json"
+          },
+          body : JSON.stringify(data)
+        })
+    
+        const responseData = await response.json()
+    
+        if(responseData.success){
+            toast.success(responseData?.message)
+            onClose()
+            fetchData()
+        }
+    
+        if(response.error){
+          toast.error(responseData?.message)
+        }
+    
+    
+      }
+    
   return (
     <div className='fixed bg-slate-200 bg-opacity-35 w-full top-0 left-0 right-0 bottom-0 flex justify-center items-center'>
       <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
         <div className='flex justify-between items-center pb-3'>
-          <h2 className='font-bold text-lg'>Upload Product</h2>
+          <h2 className='font-bold text-lg'>Edit Product</h2>
           <div className='w-fit ml-auto text-2xl hover:text-red-600 cursor-pointer' onClick={onClose}>
           <IoMdClose />
           </div>
@@ -220,6 +222,7 @@ const UploadProduct = ({onClose,fetchData}) => {
          id="description" 
          value={data.description}
          onChange={handleOnChange}>
+      
 
         </textarea>
 
@@ -228,7 +231,7 @@ const UploadProduct = ({onClose,fetchData}) => {
 
 
 
-        <button className='px-3 py-1 bg-red-600 text-white mb-10 over:bg-red-700'>Upload Product</button>
+        <button className='px-3 py-1 bg-red-600 text-white mb-10 over:bg-red-700'>Update Product</button>
 
 
 
@@ -250,4 +253,4 @@ const UploadProduct = ({onClose,fetchData}) => {
   )
 }
 
-export default UploadProduct
+export default AdminEditProduct
