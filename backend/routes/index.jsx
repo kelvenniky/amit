@@ -2,16 +2,19 @@ const express = require('express');
 
 const router = express.Router();
 
-const userSignUpController = require("../controller/userSignUp.jsx");
-const userSignInController = require('../controller/userSignIn.jsx');
-const userDetailsController = require('../controller/userDetails.jsx');
+const userSignUpController = require("../controller/user/userSignUp.jsx");
+const userSignInController = require('../controller/user/userSignIn.jsx');
+const userDetailsController = require('../controller/user/userDetails.jsx');
 const authToken = require('../middleware/authToken.jsx');
-const UserLogout = require('../controller/userLogout.jsx');
-const AllUsers = require('../controller/AllUsers.jsx');
-const updateUser = require('../controller/UpdateUser.jsx');
-const UploadProductController = require('../controller/UploadProduct.jsx');
-const getProductController = require('../controller/GetProduct.jsx');
-const updateProductController = require('../controller/UpdateProduct.jsx');
+const UserLogout = require('../controller/user/userLogout.jsx');
+const AllUsers = require('../controller/user/AllUsers.jsx');
+const updateUser = require('../controller/user/UpdateUser.jsx');
+const UploadProductController = require('../controller/product/UploadProduct.jsx');
+const getProductController = require('../controller/product/GetProduct.jsx');
+const updateProductController = require('../controller/product/UpdateProduct.jsx');
+const getCategoryProduct = require('../controller/product/getCategoryProductOne.jsx');
+const getCategoryWiseProduct = require('../controller/product/getCategoryWiseProduct.jsx');
+
 
 
 
@@ -30,6 +33,8 @@ router.post('/update-user', authToken,updateUser)
 router.post('/upload-product',authToken, UploadProductController)
 router.get('/get-product', getProductController)
 router.post('/update-product',authToken, updateProductController)
+router.get('/get-categoryProduct', getCategoryProduct)
+router.post('/category-product', getCategoryWiseProduct)
 
 
 

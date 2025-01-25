@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel.jsx")
+const userModel = require("../../models/userModel.jsx")
 
 async function AllUsers(req, res){
     try {
