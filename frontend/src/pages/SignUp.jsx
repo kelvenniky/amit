@@ -50,7 +50,7 @@ const SignUp = () => {
 
       if(data.password === data.confirmPassword){
 
-        const dataResponse = await fetch(SummaryApi.signUp.url,{
+        const dataResponse = await fetch(SummaryApi.signUp.url ,{
             method : SummaryApi.signUp.method,
             headers : {
                 "content-type" : "application/json"
@@ -66,7 +66,7 @@ const SignUp = () => {
           }
 
           if(dataApi.error){
-            toast.error(dataApi.message)
+            console.log("error")
           }
     
       }else{

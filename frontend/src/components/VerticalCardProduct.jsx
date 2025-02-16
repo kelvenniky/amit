@@ -44,25 +44,47 @@ const VerticalCardProduct = ({category, heading}) => {
           <button onClick={scrollLeft}  className=' bg-white shadow-md rounded-full p-1 absolute left-0 hidden md:block text-lg'><FaAngleLeft/></button>
           <button onClick={scrollRight} className=' bg-white shadow-md rounded-full p-1 absolute right-0  hidden md:block text-lg'><FaAngleRight/></button>
         {
-            data.map((product, index)=>{
-                return(
-                    <div className='w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow '>
-                    <div className='bg-slate-200 h-48 p-4 min-w-[200px] md:min-w-[145px] flex justify-center items-center '>
-                         <img src={product.productImage[0]} className='object-scale-down h-full hover-scale-110 transition-all mix-blend-multiply ' />
-                    </div>
-                    <div className='p-4 grid gap-3'>
-                      <h2 className='font-medium text-base text-ellipsis line-clamp-1 md:text-lg text-black'>{product?.productName}</h2>
-                      <p className='capitalize text-slate-500'>{product?.category}</p>
-                      <div className='flex  gap-3'>
-                        <p className='text-red-600 font-medium'>{displayINRCurrency(product?.sellingPrice) }</p>
-                        <p className='text-slate-500 line-through'>{displayINRCurrency(product?.price)}</p>
-
-                      </div>
-                      <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full '>Add to Cart</button>
-                    </div>
-                 </div>
-                )
-            })
+            loading ?(
+                loadingList.map((product, index)=>{
+                    return(
+                        <div className='w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow '>
+                        <div className='bg-slate-200 h-48 p-4 min-w-[200px] md:min-w-[145px] flex justify-center items-center animation-pulse'>
+                        </div>
+                        <div className='p-4 grid gap-3'>
+                          <h2 className='font-medium text-base text-ellipsis line-clamp-1 md:text-lg text-black p-1 py-2 animation-pulse rounded-full bg-slate-200'></h2>
+                          <p className='capitalize text-slate-500 animation-pulse rounded-full bg-slate-200 py-2'></p>
+                          <div className='flex  gap-3'>
+                            <p className='text-red-600 font-medium animation-pulse rounded-full bg-slate-200 w-full py-2'></p>
+                            <p className='text-slate-500 line-through animation-pulse rounded-full bg-slate-200 w-full py-2'></p>
+    
+                          </div>
+                          <button className='text-sm bg-slate-200  text-white px-3 py-2 rounded-full animate-pulse'></button>
+                        </div>
+                     </div>
+                    )
+                })
+            ):(
+                data.map((product, index)=>{
+                    return(
+                        <div className='w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow '>
+                        <div className='bg-slate-200 h-48 p-4 min-w-[200px] md:min-w-[145px] flex justify-center items-center '>
+                             <img src={product.productImage[0]} className='object-scale-down h-full hover-scale-110 transition-all mix-blend-multiply ' />
+                        </div>
+                        <div className='p-4 grid gap-3'>
+                          <h2 className='font-medium text-base text-ellipsis line-clamp-1 md:text-lg text-black'>{product?.productName}</h2>
+                          <p className='capitalize text-slate-500'>{product?.category}</p>
+                          <div className='flex  gap-3'>
+                            <p className='text-red-600 font-medium'>{displayINRCurrency(product?.sellingPrice) }</p>
+                            <p className='text-slate-500 line-through'>{displayINRCurrency(product?.price)}</p>
+    
+                          </div>
+                          <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full '>Add to Cart</button>
+                        </div>
+                     </div>
+                    )
+                })
+            )
+          
         }
        
         </div>
