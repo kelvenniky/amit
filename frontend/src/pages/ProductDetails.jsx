@@ -4,6 +4,9 @@ import SummaryApi from '../common'
 import { FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 import displayINRCurrency from "../helpers/displayCurrency"
+import VerticalCardProduct from '../components/VerticalCardProduct'
+import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
+
 
 
 
@@ -102,7 +105,7 @@ const ProductDetails = () => {
        {
         loading ? (
           <div className="grid gap-1 w-full">
-          <p className="bg-slate-200 animate-pulse   h-6 lg:h-8 w-full  rounded-full inline-block w-full "></p>
+          <p className="bg-slate-200 animate-pulse   h-6 lg:h-8 rounded-full inline-block w-full "></p>
           <h2 className='text-2xl lg:text-4xl font-medium bg-slate-200 h-6 animate-pulse w-full'></h2>
           <p className="capitalize text-slate-400 bg-slate-200 min-w-[100px] animate-pulse h-6 w-full lg:h-8"></p>
 
@@ -161,6 +164,15 @@ const ProductDetails = () => {
         )
        }
       </div>
+
+      {
+        data.category && (
+          <CategoryWiseProductDisplay category={data.category} heading={"Recommended Products"}/>
+
+        )
+      }
+
+
     </div>
   )
 }

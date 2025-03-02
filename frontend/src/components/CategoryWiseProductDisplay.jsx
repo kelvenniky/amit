@@ -6,13 +6,12 @@ import addToCart from '../helpers/addToCart';
 import { Link } from 'react-router-dom';
 
 
-const VerticalCardProduct = ({category, heading}) => {
+const CategoryWiseProductDisplay = ({category, heading}) => {
 
     const[ data, setData] = useState([])
     const[loading, setLoading]= useState(false)
     const loadingList = new Array(13).fill(null)
-    const [scroll, setScroll] = useState(0)
-    const scrollElement = useRef()
+   
 
 
     const fetchData =async()=>{
@@ -30,21 +29,13 @@ const VerticalCardProduct = ({category, heading}) => {
 
     },[])
 
-    const scrollRight =()=>{
-      scrollElement.current.scrollLeft +=300
-    }
-    const scrollLeft =()=>{
-      scrollElement.current.scrollLeft -=300
-    }
-
 
   return (
     <div className=' container mx-auto px-4 my-6 relative'>
         <h2 className=' font-bold text-2xl py-4'>{heading}</h2>
 
-        <div className='flex items-center gap-4 md:gap-6 overflow-x-scroll scrollbar-none transition-all' ref={scrollElement}>
-          <button onClick={scrollLeft}  className=' bg-white shadow-md rounded-full p-1 absolute left-0 hidden md:block text-lg'><FaAngleLeft/></button>
-          <button onClick={scrollRight} className=' bg-white shadow-md rounded-full p-1 absolute right-0  hidden md:block text-lg'><FaAngleRight/></button>
+        <div className='grid grid-cols-[repeat(auto-fit, minmax(300px,320px))] md:gap-6 overflow-x-scroll scrollbar-none transition-all' >
+
         {
             loading ?(
                 loadingList.map((product, index)=>{
@@ -94,4 +85,4 @@ const VerticalCardProduct = ({category, heading}) => {
   )
 }
 
-export default VerticalCardProduct
+export default CategoryWiseProductDisplay
